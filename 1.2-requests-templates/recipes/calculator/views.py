@@ -21,4 +21,9 @@ DATA = {
 
 def receipts(request, name):
     recipe = DATA.get(name, {})
+    try:
+        count = int(request.GET.get('servings', 1))
+    except ValueError:
+        count = 1
+    recipe = {ingredient: count * amount for ingredient, amount in recipe.items() }
     return render(request, "calculator/index.html", { "recipe": recipe })
